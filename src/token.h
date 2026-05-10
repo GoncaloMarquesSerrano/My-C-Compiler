@@ -17,7 +17,9 @@ typedef enum {
 
 typedef struct {
   TokenType type;
-  char *value;
+  char *value; /* Heap-allocated (strdup). NULL for tokens with no
+                  semantic value (keywords, punctuation). Caller must
+                  use token_list_free() to release. */
 } Token;
 
 #endif // !TOKEN_H
