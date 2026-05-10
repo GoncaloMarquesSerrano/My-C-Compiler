@@ -44,8 +44,10 @@ int run_compiler(const char *input_file, const char *flag) {
 
   // if any flag is given doesnt do anything
   if (strlen(flag) > 0) {
-    if (remove(preprocessed) != 0)
+    if (remove(preprocessed) != 0) {
       fprintf(stderr, "Error deleting preprocessed file\n");
+      return 1;
+    }
     return 0;
   }
 
