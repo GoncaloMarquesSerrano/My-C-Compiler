@@ -9,7 +9,7 @@ void build_filenames(const char *input, char *preprocessed, char *assembly,
   char *pos = strrchr(input, '.');
 
   if (pos == NULL) {
-    fprintf(stderr, "No extension found");
+    fprintf(stderr, "No extension found\n");
     exit(1);
   }
 
@@ -33,7 +33,7 @@ int run_compiler(const char *input_file, const char *flag) {
   char cmd[1024];
   snprintf(cmd, sizeof(cmd), "gcc -E -P %s -o %s", input_file, preprocessed);
   if (system(cmd) != 0) {
-    fprintf(stderr, "Error preprocessing file");
+    fprintf(stderr, "Error preprocessing file\n");
     return 1;
   }
 
@@ -45,12 +45,13 @@ int run_compiler(const char *input_file, const char *flag) {
   // if any flag is given doesnt do anything
   if (strlen(flag) > 0) {
     if (remove(preprocessed) != 0)
-      fprintf(stderr, "Error deleting preprocessed file");
+      fprintf(stderr, "Error deleting preprocessed file\n");
     return 0;
   }
 
   if (remove(preprocessed) != 0) {
-    fprintf(stderr, "Error deleting preprocessed file");
+    fprintf(stderr, "Error deleting preprocessed file\n");
+    return 1;
   }
 
   // step 3: assemble and link to produce executable
@@ -68,7 +69,7 @@ int run_compiler(const char *input_file, const char *flag) {
 int main(int argc, char *argv[]) {
 
   if (argc == 1) {
-    fprintf(stderr, "use: ./compiler [--lex|--parse|--codegen]");
+    fprintf(stderr, "use: ./compiler [--lex|--parse|--codegen]\n");
     exit(1);
   }
   if (argc == 2) {
@@ -83,7 +84,7 @@ int main(int argc, char *argv[]) {
         strcmp(argv[1], "--codegen") == 0) {
       return run_compiler(argv[2], argv[1]);
     }
-    fprintf(stderr, "use: ./compiler [--lex|--parse|--codegen]");
+    fprintf(stderr, "use: ./compiler [--lex|--parse|--codegen]\n");
     exit(1);
   }
   return 0;
