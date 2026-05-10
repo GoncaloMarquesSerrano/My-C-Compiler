@@ -15,7 +15,7 @@ void build_filenames(const char *input, char *preprocessed, char *assembly,
 
   size_t len = pos - input;
 
-  char filename[buf_size];
+  char filename[512];
 
   strncpy(filename, input, len);
   filename[len] = '\0';
