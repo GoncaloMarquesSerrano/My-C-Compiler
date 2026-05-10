@@ -1,9 +1,8 @@
 #include "file_reader.h"
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-unsigned char *read_file(const char *file_name, uint64_t *file_size) {
+unsigned char *read_file(const char *file_name, size_t *file_size) {
   FILE *fptr;
 
   fptr = fopen(file_name, "rb");
