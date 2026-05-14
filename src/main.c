@@ -1,3 +1,6 @@
+#include "file_reader.h"
+#include "lexer.h"
+#include "token.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -38,9 +41,13 @@ int run_compiler(const char *input_file, const char *flag) {
   }
 
   // step 2: compile
-  // stubbing out for now
 
-  printf("Compiling...");
+  printf("Compiling...\n");
+  size_t size;
+  unsigned char *src = read_file(preprocessed, &size);
+  TokenList list = lexer_tokenize((const char *)src);
+  free(src);
+  token_list_free(&list);
 
   // if any flag is given doesnt do anything
   if (strlen(flag) > 0) {
