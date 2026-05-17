@@ -2,12 +2,12 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g
 TARGET = compiler
 SRC = src/main.c \
-	src/file_reader.c \
-	src/lexer.c
+	src/file_reader/file_reader.c \
+	src/lexer/lexer.c
 OBJ = $(SRC:.c=.o)
 
 TEST_SRC = src/test_lexer.c \
-	src/lexer.c
+	src/lexer/lexer.c
 TEST_OBJ = $(TEST_SRC:.c=.o)
 TEST_TARGET = test_lexer
 

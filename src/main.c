@@ -1,6 +1,5 @@
-#include "file_reader.h"
-#include "lexer.h"
-#include "token.h"
+#include "file_reader/file_reader.h"
+#include "lexer/lexer.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
