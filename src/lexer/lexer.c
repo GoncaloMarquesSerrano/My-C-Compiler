@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-TokenList token_list_init() {
+static TokenList token_list_init() {
   TokenList list;
 
   list.tokens = malloc(16 * sizeof(Token));
@@ -21,7 +21,7 @@ TokenList token_list_init() {
   return list;
 }
 
-void token_list_push(Token token, TokenList *list) {
+static void token_list_push(Token token, TokenList *list) {
   if (list->size >= list->capacity) {
     size_t new_capacity = list->capacity * 2;
 

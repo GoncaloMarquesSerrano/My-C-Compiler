@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-void build_filenames(const char *input, char *preprocessed, char *assembly,
-                     char *executable, size_t buf_size) {
+static void build_filenames(const char *input, char *preprocessed,
+                            char *assembly, char *executable, size_t buf_size) {
   char *pos = strrchr(input, '.');
 
   if (pos == NULL) {
