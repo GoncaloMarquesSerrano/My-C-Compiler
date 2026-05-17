@@ -1,5 +1,5 @@
+#include "./token/token.h"
 #include "lexer/lexer.h"
-#include "token.h"
 #include <stdio.h>
 
 int main(void) {

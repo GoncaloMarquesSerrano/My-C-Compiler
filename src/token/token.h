@@ -22,4 +22,6 @@ typedef struct {
                   use token_list_free() to release. */
 } Token;
 
+char *token_type_to_string(TokenType token_type);
+
 #endif // !TOKEN_H
