@@ -1,5 +1,7 @@
+#include "ast/ast.h"
 #include "file_reader/file_reader.h"
 #include "lexer/lexer.h"
+#include "parser/parser.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -45,6 +47,19 @@ int run_compiler(const char *input_file, const char *flag) {
   size_t size;
   unsigned char *src = read_file(preprocessed, &size);
   TokenList list = lexer_tokenize((const char *)src);
+  if (strcmp(flag, "--lex") == 0) {
+    free(src);
+    token_list_free(&list);
+    return 0;
+  }
+  Program program = {0};
+  parse_program(&program, &list);
+  program_printer(&program, 1);
+  if (strcmp(flag, "--parse") == 0) {
+    free(src);
+    token_list_free(&list);
+    return 0;
+  }
   free(src);
   token_list_free(&list);
 
