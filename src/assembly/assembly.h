@@ -1,7 +1,6 @@
 #ifndef ASSEMBLY_H
 #define ASSEMBLY_H
 
-#include <cstddef>
 #include <stddef.h>
 typedef enum { MOV_INSTRUCTION, RET_INSTRUCTION } InstructionType;
 
@@ -63,5 +62,8 @@ typedef struct {
   size_t size;
   size_t capacity;
 } InstructionList;
+
+void instruction_list_free(InstructionList *list);
+void instruction_pretty_printer(const Instruction *instruction);
 
 #endif // !ASSEMBLY_H
