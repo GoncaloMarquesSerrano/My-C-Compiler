@@ -49,19 +49,19 @@ typedef struct {
 } Instruction;
 
 typedef struct {
-  char *identifier;
-  Instruction *instructions;
-} FunctionDefinition;
-
-typedef struct {
-  FunctionDefinition function_definition;
-} Program;
-
-typedef struct {
   Instruction *instructions;
   size_t size;
   size_t capacity;
 } InstructionList;
+
+typedef struct {
+  char *identifier;
+  InstructionList instructions;
+} FunctionDefinition;
+
+typedef struct {
+  FunctionDefinition function_definition;
+} AssemblyProgram;
 
 void instruction_list_free(InstructionList *list);
 void instruction_pretty_printer(const Instruction *instruction);
