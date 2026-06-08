@@ -1,4 +1,5 @@
 #include "assembly.h"
+#include "../ast/ast.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -102,3 +103,9 @@ void instruction_pretty_printer(const Instruction *instruction) {
     break;
   }
 }
+
+AssemblyProgram generate_program(Program *program) {}
+
+FunctionDefinition generate_funtion(Function *function) {}
+
+void generate_statement(Statement *statement, InstructionList *list) {}
