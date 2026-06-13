@@ -6,7 +6,8 @@ SRC = src/main.c \
 	src/lexer/lexer.c \
 	src/parser/parser.c \
 	src/ast/ast.c \
-	src/token/token.c
+	src/token/token.c \
+	src/assembly/assembly.c 
 OBJ = $(SRC:.c=.o)
 
 all: $(TARGET)

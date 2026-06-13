@@ -2,6 +2,7 @@
 #include "file_reader/file_reader.h"
 #include "lexer/lexer.h"
 #include "parser/parser.h"
+#include "assembly/assembly.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -44,24 +45,42 @@ int run_compiler(const char *input_file, const char *flag) {
   // step 2: compile
 
   printf("Compiling...\n");
+  
   size_t size;
   unsigned char *src = read_file(preprocessed, &size);
   TokenList list = lexer_tokenize((const char *)src);
+  
   if (strcmp(flag, "--lex") == 0) {
     free(src);
     token_list_free(&list);
     return 0;
   }
+  
   Program program = {0};
   parse_program(&program, &list);
-  program_printer(&program, 1);
+
+  
   if (strcmp(flag, "--parse") == 0) {
     free(src);
     token_list_free(&list);
     return 0;
   }
+
+  AssemblyProgram assembly_program =  generate_program(&program);
+  if (strcmp(flag, "--codegen") == 0) {
+    free(src);
+    token_list_free(&list);
+    for (size_t i = 0; i < assembly_program.function_definition.instructions.size; i++) {
+      instruction_pretty_printer(&assembly_program.function_definition.instructions.instructions[i]);
+    }
+    instruction_list_free(&assembly_program.function_definition.instructions);
+    return 0;
+  }
+  
   free(src);
   token_list_free(&list);
+  instruction_list_free(&assembly_program.function_definition.instructions);
+  
 
   // if any flag is given doesnt do anything
   if (strlen(flag) > 0) {
