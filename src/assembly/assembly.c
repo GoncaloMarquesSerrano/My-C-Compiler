@@ -104,8 +104,60 @@ void instruction_pretty_printer(const Instruction *instruction) {
   }
 }
 
-AssemblyProgram generate_program(Program *program) {}
+static Operand make_imm(int v) {
+    Operand op;
+    op.operand_type = IMM_OPERAND;
+    op.imm_operand.value = v;
+    return op;
+}
 
-FunctionDefinition generate_funtion(Function *function) {}
+static Operand make_reg(RegisterName r) {
+    Operand op;
+    op.operand_type = REGISTER_OPERAND;
+    op.register_operand.register_operand = r;
+    return op;
+}
 
-void generate_statement(Statement *statement, InstructionList *list) {}
+static Instruction make_mov(RegisterName dst, Operand src) {
+  Instruction instr;
+
+  instr.instruction_type = MOV_INSTRUCTION;
+
+  instr.mov_instruction.dst = make_reg(dst);
+  instr.mov_instruction.src = src;
+
+  return instr;
+}
+
+static Operand generate_expression(Expression *expression) {
+  if (expression->expression_type != CONSTANT) {
+    fprintf(stderr, "Different expressions aren't currently supported");
+    exit(1);
+  }
+
+  return make_imm(expression->constant.value);
+}
+
+static void generate_statement(Statement *statement, InstructionList *list){
+  if (statement->statement_type == STMT_RETURN) {
+    Instruction mov_instruction = make_mov(EAX, generate_expression(&statement->ret_stmt.exp));
+    instruction_list_push(mov_instruction, list);
+    Instruction ret_instruction;
+    ret_instruction.instruction_type = RET_INSTRUCTION;
+    instruction_list_push(ret_instruction, list);
+  }
+}
+
+static FunctionDefinition generate_function(Function *function) {
+  FunctionDefinition assembly_function;
+  assembly_function.instructions = instruction_list_init();
+  assembly_function.identifier = function->identifier;
+  generate_statement(&function->body, &assembly_function.instructions);
+  return assembly_function;
+}
+
+AssemblyProgram generate_program(Program *program) {
+  AssemblyProgram assembly_program;
+  assembly_program.function_definition = generate_function(&program->function);
+  return assembly_program;
+}

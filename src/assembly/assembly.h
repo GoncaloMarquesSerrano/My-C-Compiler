@@ -2,6 +2,7 @@
 #define ASSEMBLY_H
 
 #include <stddef.h>
+#include "../ast/ast.h"
 typedef enum { MOV_INSTRUCTION, RET_INSTRUCTION } InstructionType;
 
 typedef enum {
@@ -65,5 +66,6 @@ typedef struct {
 
 void instruction_list_free(InstructionList *list);
 void instruction_pretty_printer(const Instruction *instruction);
+AssemblyProgram generate_program(Program *program);
 
 #endif // !ASSEMBLY_H
