@@ -3,6 +3,7 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 #include "assembly/assembly.h"
+#include "emitter/emitter.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -45,21 +46,21 @@ int run_compiler(const char *input_file, const char *flag) {
   // step 2: compile
 
   printf("Compiling...\n");
-  
+
   size_t size;
   unsigned char *src = read_file(preprocessed, &size);
   TokenList list = lexer_tokenize((const char *)src);
-  
+
   if (strcmp(flag, "--lex") == 0) {
     free(src);
     token_list_free(&list);
     return 0;
   }
-  
+
   Program program = {0};
   parse_program(&program, &list);
 
-  
+
   if (strcmp(flag, "--parse") == 0) {
     free(src);
     token_list_free(&list);
@@ -76,11 +77,13 @@ int run_compiler(const char *input_file, const char *flag) {
     instruction_list_free(&assembly_program.function_definition.instructions);
     return 0;
   }
-  
+
+  emit_program(&assembly_program, assembly);
+
   free(src);
   token_list_free(&list);
   instruction_list_free(&assembly_program.function_definition.instructions);
-  
+
 
   // if any flag is given doesnt do anything
   if (strlen(flag) > 0) {
@@ -97,13 +100,11 @@ int run_compiler(const char *input_file, const char *flag) {
   }
 
   // step 3: assemble and link to produce executable
-  /*
   snprintf(cmd, sizeof(cmd), "gcc %s -o %s", assembly, executable);
   if (system(cmd) != 0) {
     fprintf(stderr, "Error linking assembly file");
     return 1;
   }
-  */
   remove(assembly);
   return 0;
 }
