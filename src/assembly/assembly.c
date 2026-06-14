@@ -52,7 +52,7 @@ void instruction_list_free(InstructionList *list) {
   list->size = 0;
 }
 
-static const char *register_to_string(RegisterName reg) {
+const char *register_to_string(RegisterName reg) {
   switch (reg) {
   case EAX:
     return "eax";
@@ -160,4 +160,15 @@ AssemblyProgram generate_program(Program *program) {
   AssemblyProgram assembly_program;
   assembly_program.function_definition = generate_function(&program->function);
   return assembly_program;
+}
+
+void format_operand(const Operand *operand, char *buf, size_t buf_size) {
+    switch (operand->operand_type) {
+    case IMM_OPERAND:
+        snprintf(buf, buf_size, "$%d", operand->imm_operand.value);
+        break;
+    case REGISTER_OPERAND:
+        snprintf(buf, buf_size, "%%%s", register_to_string(operand->register_operand.register_operand));
+        break;
+    }
 }

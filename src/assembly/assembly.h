@@ -67,5 +67,6 @@ typedef struct {
 void instruction_list_free(InstructionList *list);
 void instruction_pretty_printer(const Instruction *instruction);
 AssemblyProgram generate_program(Program *program);
+void format_operand(const Operand *operand, char *buf, size_t buf_size);
 
 #endif // !ASSEMBLY_H
